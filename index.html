@@ -16,6 +16,8 @@
     --dark: #2a2d3e;
     --card-bg: #ffffff;
     --shadow: rgba(61, 65, 88, 0.12);
+    --kitchen: #2EC4B6;
+    --community: #E91E8C;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,14 +30,13 @@
     overflow-x: hidden;
   }
 
-  /* ── Animated background vines ── */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     background-image:
-      radial-gradient(ellipse at 10% 20%, rgba(76,175,80,0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 90% 80%, rgba(139,195,74,0.08) 0%, transparent 50%);
+      radial-gradient(ellipse at 10% 20%, rgba(46,196,182,0.07) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 80%, rgba(233,30,140,0.05) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
   }
@@ -54,7 +55,6 @@
     animation: sway 8s ease-in-out infinite;
   }
   .vine:nth-child(2) { animation-delay: -3s; left: 85%; }
-  .vine:nth-child(3) { animation-delay: -5s; left: 5%; top: 40%; }
 
   @keyframes sway {
     0%, 100% { transform: rotate(-3deg) scale(1); }
@@ -88,28 +88,11 @@
     box-shadow: 0 0 0 4px rgba(46,196,182,0.2);
   }
 
-  .logo-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: 6px;
-  }
+  .logo-wrap img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
+  .logo-placeholder { font-size: 32px; }
 
-  .logo-placeholder {
-    font-size: 32px;
-  }
-
-  .header-text h1 {
-    font-size: 2rem;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    line-height: 1.1;
-  }
-  .header-text p {
-    font-size: 0.95rem;
-    opacity: 0.75;
-    margin-top: 4px;
-  }
+  .header-text h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1; }
+  .header-text p  { font-size: 0.95rem; opacity: 0.75; margin-top: 4px; }
 
   .header-leaf {
     margin-left: auto;
@@ -117,13 +100,12 @@
     animation: bob 3s ease-in-out infinite;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
   }
-
   @keyframes bob {
     0%, 100% { transform: translateY(0) rotate(-5deg); }
     50% { transform: translateY(-8px) rotate(5deg); }
   }
 
-  /* ── Main layout ── */
+  /* ── Main ── */
   main {
     position: relative;
     z-index: 10;
@@ -132,7 +114,6 @@
     padding: 32px 24px 60px;
   }
 
-  /* ── Section titles ── */
   .section-title {
     font-size: 1.1rem;
     font-weight: 700;
@@ -166,6 +147,7 @@
     main { padding: 20px 16px 60px; }
     .header-text h1 { font-size: 1.4rem; }
     .chart-grid { grid-template-columns: 1fr !important; }
+    .type-breakdown { grid-template-columns: 1fr !important; }
   }
 
   .stat-card {
@@ -173,32 +155,24 @@
     border-radius: 20px;
     padding: 28px 24px;
     box-shadow: 0 4px 20px var(--shadow);
-    border: 1.5px solid rgba(76,175,80,0.15);
+    border: 1.5px solid rgba(46,196,182,0.15);
     position: relative;
     overflow: hidden;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     cursor: default;
   }
-
-  .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 36px var(--shadow);
-  }
-
+  .stat-card:hover { transform: translateY(-5px); box-shadow: 0 12px 36px var(--shadow); }
   .stat-card::before {
     content: '';
     position: absolute;
-    top: -30px;
-    right: -30px;
-    width: 120px;
-    height: 120px;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
     border-radius: 50%;
     opacity: 0.08;
   }
-
-  .stat-card.harvest::before { background: var(--leaf); }
-  .stat-card.bags::before   { background: var(--earth); }
-  .stat-card.people::before { background: #7C4DFF; }
+  .stat-card.harvest::before { background: #2EC4B6; }
+  .stat-card.bags::before    { background: #E91E8C; }
+  .stat-card.people::before  { background: #7C4DFF; }
 
   .stat-icon {
     font-size: 2.4rem;
@@ -215,38 +189,33 @@
     96% { transform: rotate(8deg); }
   }
 
-  .stat-label {
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #888;
-    margin-bottom: 8px;
-  }
-
-  .stat-value {
-    font-size: 3rem;
-    font-weight: 900;
-    line-height: 1;
-    color: var(--forest);
-  }
-
+  .stat-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 8px; }
+  .stat-value { font-size: 3rem; font-weight: 900; line-height: 1; color: var(--forest); }
   .stat-card.harvest .stat-value { color: #2EC4B6; }
   .stat-card.bags   .stat-value  { color: #E91E8C; }
   .stat-card.people .stat-value  { color: #6200EA; }
+  .stat-unit { font-size: 1rem; font-weight: 600; opacity: 0.5; margin-left: 4px; }
+  .stat-change { margin-top: 10px; font-size: 0.82rem; color: #888; }
 
-  .stat-unit {
-    font-size: 1rem;
-    font-weight: 600;
-    opacity: 0.5;
-    margin-left: 4px;
+  /* ── Harvest type breakdown mini-cards ── */
+  .type-breakdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
   }
-
-  .stat-change {
-    margin-top: 10px;
+  .type-mini {
+    border-radius: 12px;
+    padding: 10px 14px;
     font-size: 0.82rem;
-    color: #888;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
+  .type-mini.kitchen   { background: #e0f7f6; color: #00796B; }
+  .type-mini.community { background: #fce4f2; color: #AD1457; }
+  .type-mini .mini-val { font-size: 1.1rem; font-weight: 900; }
 
   /* ── Charts ── */
   .chart-grid {
@@ -261,36 +230,25 @@
     border-radius: 20px;
     padding: 24px;
     box-shadow: 0 4px 20px var(--shadow);
-    border: 1.5px solid rgba(76,175,80,0.12);
+    border: 1.5px solid rgba(46,196,182,0.12);
   }
+  .chart-card h3 { font-size: 1rem; font-weight: 700; color: var(--forest); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
 
-  .chart-card h3 {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--forest);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  /* ── Form panel ── */
+  /* ── Form ── */
   .form-card {
     background: linear-gradient(135deg, #f0fbfa, #e6f7f6);
     border-radius: 20px;
     padding: 32px;
     box-shadow: 0 4px 20px var(--shadow);
-    border: 2px solid rgba(76,175,80,0.25);
+    border: 2px solid rgba(46,196,182,0.25);
     margin-bottom: 36px;
     position: relative;
     overflow: hidden;
   }
-
   .form-card::after {
     content: '🌿';
     position: absolute;
-    right: 24px;
-    bottom: 20px;
+    right: 24px; bottom: 20px;
     font-size: 5rem;
     opacity: 0.12;
     transform: rotate(20deg);
@@ -303,25 +261,16 @@
     margin-top: 20px;
   }
 
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
 
-  label {
-    font-size: 0.82rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--forest);
-  }
+  label { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--forest); }
 
   input[type="date"],
   input[type="number"],
-  input[type="text"] {
+  input[type="text"],
+  select {
     padding: 12px 14px;
-    border: 2px solid rgba(76,175,80,0.25);
+    border: 2px solid rgba(46,196,182,0.25);
     border-radius: 12px;
     font-size: 1rem;
     color: var(--forest);
@@ -329,12 +278,25 @@
     transition: border-color 0.2s, box-shadow 0.2s;
     outline: none;
     width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%233D4158' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
   }
 
-  input:focus {
+  input:focus, select:focus {
     border-color: #2EC4B6;
     box-shadow: 0 0 0 3px rgba(46,196,182,0.18);
   }
+
+  /* Colour the select based on value */
+  select.kitchen-selected   { border-color: #2EC4B6; background-color: #f0fbfa; }
+  select.community-selected { border-color: #E91E8C; background-color: #fdf0f7; }
 
   .btn-submit {
     margin-top: 20px;
@@ -352,14 +314,9 @@
     align-items: center;
     gap: 8px;
   }
-
-  .btn-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(46,196,182,0.45);
-  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(46,196,182,0.45); }
   .btn-submit:active { transform: translateY(0); }
 
-  /* ── Success sprout animation ── */
   .sprout-anim {
     display: none;
     font-size: 1.5rem;
@@ -371,54 +328,47 @@
     100% { transform: scale(1) rotate(0deg); opacity: 1; }
   }
 
-  /* ── Log table ── */
+  /* ── Table ── */
   .table-card {
     background: var(--card-bg);
     border-radius: 20px;
     padding: 24px;
     box-shadow: 0 4px 20px var(--shadow);
-    border: 1.5px solid rgba(76,175,80,0.12);
+    border: 1.5px solid rgba(46,196,182,0.12);
     overflow: hidden;
   }
 
-  .table-wrap {
-    overflow-x: auto;
-    margin-top: 12px;
-    max-height: 380px;
-    overflow-y: auto;
-    border-radius: 12px;
+  /* Filter tabs */
+  .filter-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
   }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
+  .filter-tab {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.15s;
+    background: #f4f4f4;
+    color: #888;
   }
+  .filter-tab:hover { background: #e8e8e8; }
+  .filter-tab.active-all       { background: var(--forest); color: white; }
+  .filter-tab.active-kitchen   { background: #2EC4B6; color: white; }
+  .filter-tab.active-community { background: #E91E8C; color: white; }
 
-  thead {
-    background: var(--forest);
-    color: white;
-    position: sticky;
-    top: 0;
-    z-index: 2;
-  }
+  .table-wrap { overflow-x: auto; margin-top: 4px; max-height: 380px; overflow-y: auto; border-radius: 12px; }
 
-  th {
-    padding: 12px 16px;
-    text-align: left;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  td {
-    padding: 12px 16px;
-    border-bottom: 1px solid rgba(76,175,80,0.1);
-    vertical-align: middle;
-  }
-
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  thead { background: var(--forest); color: white; position: sticky; top: 0; z-index: 2; }
+  th { padding: 12px 16px; text-align: left; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 12px 16px; border-bottom: 1px solid rgba(46,196,182,0.1); vertical-align: middle; }
   tbody tr { transition: background 0.15s; }
-  tbody tr:hover { background: rgba(76,175,80,0.05); }
+  tbody tr:hover { background: rgba(46,196,182,0.05); }
 
   .btn-delete {
     background: none;
@@ -430,23 +380,15 @@
     cursor: pointer;
     transition: background 0.15s, transform 0.1s;
   }
-  .btn-delete:hover {
-    background: #ffebee;
-    transform: scale(1.05);
-  }
+  .btn-delete:hover { background: #ffebee; transform: scale(1.05); }
 
-  .empty-state {
-    text-align: center;
-    padding: 48px 24px;
-    color: #aaa;
-  }
+  .empty-state { text-align: center; padding: 48px 24px; color: #aaa; }
   .empty-state .empty-icon { font-size: 3rem; margin-bottom: 12px; }
 
   /* ── Toast ── */
   #toast {
     position: fixed;
-    bottom: 32px;
-    left: 50%;
+    bottom: 32px; left: 50%;
     transform: translateX(-50%) translateY(80px);
     background: var(--forest);
     color: white;
@@ -464,7 +406,7 @@
   }
   #toast.show { transform: translateX(-50%) translateY(0); }
 
-  /* ── Edit modal ── */
+  /* ── Modal ── */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -481,18 +423,11 @@
     background: white;
     border-radius: 20px;
     padding: 32px;
-    width: min(520px, 90vw);
+    width: min(540px, 90vw);
     box-shadow: 0 20px 60px rgba(0,0,0,0.3);
     position: relative;
   }
-
-  .modal h3 {
-    font-size: 1.3rem;
-    font-weight: 800;
-    margin-bottom: 20px;
-    color: var(--forest);
-  }
-
+  .modal h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 20px; color: var(--forest); }
   .modal .btn-submit { margin-top: 16px; width: 100%; justify-content: center; }
 
   .btn-close-modal {
@@ -510,31 +445,26 @@
   }
   .btn-close-modal:hover { background: #e0e0e0; }
 
-  /* ── Pill badge ── */
-  .badge {
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
-  }
-  .badge-green { background: #e0f7f6; color: #00796B; }
-  .badge-brown { background: #fce4f2; color: #AD1457; }
-  .badge-blue  { background: #ede7f6; color: #4527A0; }
+  /* ── Badges ── */
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+  .badge-green     { background: #e0f7f6; color: #00796B; }
+  .badge-brown     { background: #fce4f2; color: #AD1457; }
+  .badge-blue      { background: #ede7f6; color: #4527A0; }
+  .badge-kitchen   { background: #e0f7f6; color: #00796B; }
+  .badge-community { background: #fce4f2; color: #AD1457; }
 </style>
 </head>
 <body>
 
-<!-- Vine decorations -->
 <div class="vine-layer">
-  <svg class="vine" style="left:92%;top:0;width:160px;height:100vh" viewBox="0 0 80 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg class="vine" style="left:92%;top:0;width:160px;height:100vh" viewBox="0 0 80 600" fill="none">
     <path d="M40 0 C60 80 20 160 40 240 C60 320 20 400 40 480 C60 560 40 600 40 600" stroke="#2EC4B6" stroke-width="3" fill="none"/>
     <ellipse cx="55" cy="100" rx="18" ry="10" fill="#2EC4B6" transform="rotate(-30 55 100)"/>
     <ellipse cx="25" cy="200" rx="18" ry="10" fill="#2EC4B6" transform="rotate(30 25 200)"/>
     <ellipse cx="55" cy="300" rx="18" ry="10" fill="#2EC4B6" transform="rotate(-30 55 300)"/>
     <ellipse cx="25" cy="400" rx="18" ry="10" fill="#2EC4B6" transform="rotate(30 25 400)"/>
   </svg>
-  <svg class="vine" style="left:2%;top:0;width:100px;height:80vh" viewBox="0 0 60 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg class="vine" style="left:2%;top:0;width:100px;height:80vh" viewBox="0 0 60 500" fill="none">
     <path d="M30 0 C10 70 50 140 30 210 C10 280 50 350 30 420 C10 490 30 500 30 500" stroke="#E91E8C" stroke-width="2.5" fill="none"/>
     <ellipse cx="45" cy="80" rx="14" ry="8" fill="#E91E8C" transform="rotate(-25 45 80)"/>
     <ellipse cx="15" cy="160" rx="14" ry="8" fill="#E91E8C" transform="rotate(25 15 160)"/>
@@ -543,10 +473,9 @@
   </svg>
 </div>
 
-<!-- Header -->
 <header>
-  <div class="logo-wrap" id="logoWrap">
-    <img src="./logo.png" alt="Square Mile Farms" id="logoImg" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='block'">
+  <div class="logo-wrap">
+    <img src="./logo.png" alt="Square Mile Farms" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='block'">
     <span class="logo-placeholder" id="logoFallback" style="display:none">🌱</span>
   </div>
   <div class="header-text">
@@ -558,14 +487,17 @@
 
 <main>
 
-  <!-- Stats -->
+  <!-- Totals -->
   <p class="section-title">🌾 Running Totals</p>
   <div class="stats-grid">
     <div class="stat-card harvest">
       <span class="stat-icon">⚖️</span>
       <div class="stat-label">Produce Harvested</div>
       <div class="stat-value"><span id="totalKg">0</span><span class="stat-unit">kg</span></div>
-      <div class="stat-change" id="changeKg"></div>
+      <div class="type-breakdown">
+        <div class="type-mini kitchen">🍳 <span class="mini-val" id="kitchenKg">0</span> kg Kitchen</div>
+        <div class="type-mini community">🌍 <span class="mini-val" id="communityKg">0</span> kg Community</div>
+      </div>
     </div>
     <div class="stat-card bags">
       <span class="stat-icon">🛍️</span>
@@ -585,12 +517,12 @@
   <p class="section-title">📊 History</p>
   <div class="chart-grid">
     <div class="chart-card">
-      <h3>🌱 Harvest &amp; Bags Over Time</h3>
+      <h3>🌱 KG Harvested by Type Over Time</h3>
       <canvas id="lineChart" height="200"></canvas>
     </div>
     <div class="chart-card">
-      <h3>👥 People Engaged</h3>
-      <canvas id="barChart" height="200"></canvas>
+      <h3>🥧 KG Split by Harvest Type</h3>
+      <canvas id="donutChart" height="200"></canvas>
     </div>
   </div>
 
@@ -603,6 +535,13 @@
         <div class="form-group">
           <label for="fDate">📅 Date</label>
           <input type="date" id="fDate" required>
+        </div>
+        <div class="form-group">
+          <label for="fType">🌿 Harvest Type</label>
+          <select id="fType" required>
+            <option value="Kitchen Harvest">🍳 Kitchen Harvest</option>
+            <option value="Community Harvest">🌍 Community Harvest</option>
+          </select>
         </div>
         <div class="form-group">
           <label for="fNote">📝 Note (optional)</label>
@@ -622,9 +561,7 @@
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-        <button type="submit" class="btn-submit">
-          🌱 <span>Add Entry</span>
-        </button>
+        <button type="submit" class="btn-submit">🌱 <span>Add Entry</span></button>
         <span class="sprout-anim" id="sproutAnim">🌿 Saved!</span>
       </div>
     </form>
@@ -633,7 +570,12 @@
   <!-- Log table -->
   <p class="section-title">📋 Entry Log</p>
   <div class="table-card">
-    <div class="table-wrap" id="tableWrap">
+    <div class="filter-tabs">
+      <button class="filter-tab active-all" onclick="setFilter('all', this)">All</button>
+      <button class="filter-tab" onclick="setFilter('Kitchen Harvest', this)">🍳 Kitchen Harvest</button>
+      <button class="filter-tab" onclick="setFilter('Community Harvest', this)">🌍 Community Harvest</button>
+    </div>
+    <div class="table-wrap">
       <div class="empty-state" id="emptyState">
         <div class="empty-icon">🌰</div>
         <p>No entries yet — add your first harvest above!</p>
@@ -642,6 +584,7 @@
         <thead>
           <tr>
             <th>Date</th>
+            <th>Type</th>
             <th>Note</th>
             <th>⚖️ KG</th>
             <th>🛍️ Bags</th>
@@ -668,6 +611,13 @@
         <input type="date" id="eDate" required>
       </div>
       <div class="form-group">
+        <label for="eType">🌿 Harvest Type</label>
+        <select id="eType">
+          <option value="Kitchen Harvest">🍳 Kitchen Harvest</option>
+          <option value="Community Harvest">🌍 Community Harvest</option>
+        </select>
+      </div>
+      <div class="form-group">
         <label for="eNote">📝 Note</label>
         <input type="text" id="eNote" placeholder="Optional note">
       </div>
@@ -684,36 +634,22 @@
         <input type="number" id="ePeople" min="0" step="1" required>
       </div>
     </div>
-    <button class="btn-submit" id="saveEdit" style="width:100%;justify-content:center;margin-top:20px">💾 Save Changes</button>
+    <button class="btn-submit" id="saveEdit">💾 Save Changes</button>
   </div>
 </div>
 
-<!-- Toast -->
 <div id="toast"></div>
 
 <script>
   const STORAGE_KEY = 'smf_entries';
+  let activeFilter = 'all';
 
-  // ── Utilities ──────────────────────────────────────
-  function uid() {
-    return Math.random().toString(36).slice(2) + Date.now().toString(36);
-  }
+  function uid() { return Math.random().toString(36).slice(2) + Date.now().toString(36); }
+  function loadEntries() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; } }
+  function saveEntries(e) { localStorage.setItem(STORAGE_KEY, JSON.stringify(e)); }
+  function formatDate(iso) { const [y,m,d] = iso.split('-'); return `${d}/${m}/${y}`; }
 
-  function loadEntries() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-    catch { return []; }
-  }
-
-  function saveEntries(entries) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-  }
-
-  function formatDate(iso) {
-    const [y, m, d] = iso.split('-');
-    return `${d}/${m}/${y}`;
-  }
-
-  // ── Toast ──────────────────────────────────────────
+  // ── Toast ──
   let toastTimer;
   function toast(msg, icon = '🌱') {
     const el = document.getElementById('toast');
@@ -723,13 +659,12 @@
     toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
   }
 
-  // ── Counter animation ──────────────────────────────
+  // ── Counter animation ──
   function animateCounter(el, target, decimals = 0) {
     const start = parseFloat(el.textContent) || 0;
-    const duration = 900;
     const startTime = performance.now();
     function step(now) {
-      const p = Math.min((now - startTime) / duration, 1);
+      const p = Math.min((now - startTime) / 900, 1);
       const ease = 1 - Math.pow(1 - p, 3);
       const val = start + (target - start) * ease;
       el.textContent = decimals ? val.toFixed(decimals) : Math.round(val);
@@ -738,15 +673,20 @@
     requestAnimationFrame(step);
   }
 
-  // ── Charts ─────────────────────────────────────────
-  let lineChartInst, barChartInst;
+  // ── Charts ──
+  let lineChartInst, donutChartInst;
 
   function renderCharts(entries) {
-    const sorted = [...entries].sort((a, b) => a.date.localeCompare(b.date));
-    const labels = sorted.map(e => formatDate(e.date));
-    const kgs    = sorted.map(e => e.kgHarvested);
-    const bags   = sorted.map(e => e.bagsGiven);
-    const people = sorted.map(e => e.peopleEngaged);
+    const kitchen   = entries.filter(e => e.harvestType === 'Kitchen Harvest');
+    const community = entries.filter(e => e.harvestType === 'Community Harvest');
+
+    // All unique dates sorted
+    const allDates = [...new Set(entries.map(e => e.date))].sort();
+    const labels = allDates.map(formatDate);
+
+    const kgByDate = (subset) => allDates.map(d =>
+      subset.filter(e => e.date === d).reduce((s, e) => s + Number(e.kgHarvested), 0)
+    );
 
     const lineCtx = document.getElementById('lineChart').getContext('2d');
     if (lineChartInst) lineChartInst.destroy();
@@ -756,8 +696,8 @@
         labels,
         datasets: [
           {
-            label: 'KG Harvested',
-            data: kgs,
+            label: '🍳 Kitchen Harvest (kg)',
+            data: kgByDate(kitchen),
             borderColor: '#2EC4B6',
             backgroundColor: 'rgba(46,196,182,0.12)',
             tension: 0.4,
@@ -767,8 +707,8 @@
             pointHoverRadius: 7,
           },
           {
-            label: 'Bags Given',
-            data: bags,
+            label: '🌍 Community Harvest (kg)',
+            data: kgByDate(community),
             borderColor: '#E91E8C',
             backgroundColor: 'rgba(233,30,140,0.08)',
             tension: 0.4,
@@ -785,62 +725,78 @@
         plugins: { legend: { position: 'bottom' }, tooltip: { cornerRadius: 10 } },
         scales: {
           x: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { maxRotation: 45 } },
-          y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } }
+          y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' }, title: { display: true, text: 'kg' } }
         }
       }
     });
 
-    const barCtx = document.getElementById('barChart').getContext('2d');
-    if (barChartInst) barChartInst.destroy();
-    barChartInst = new Chart(barCtx, {
-      type: 'bar',
+    const kitchenTotal   = kitchen.reduce((s, e) => s + Number(e.kgHarvested), 0);
+    const communityTotal = community.reduce((s, e) => s + Number(e.kgHarvested), 0);
+
+    const donutCtx = document.getElementById('donutChart').getContext('2d');
+    if (donutChartInst) donutChartInst.destroy();
+    donutChartInst = new Chart(donutCtx, {
+      type: 'doughnut',
       data: {
-        labels,
+        labels: ['🍳 Kitchen Harvest', '🌍 Community Harvest'],
         datasets: [{
-          label: 'People Engaged',
-          data: people,
-          backgroundColor: labels.map((_, i) => {
-            const cols = ['#2EC4B6','#E91E8C','#7C4DFF','#4ECDC4','#FF6090','#B388FF'];
-            return cols[i % cols.length];
-          }),
-          borderRadius: 8,
-          borderSkipped: false,
+          data: [kitchenTotal, communityTotal],
+          backgroundColor: ['#2EC4B6', '#E91E8C'],
+          hoverBackgroundColor: ['#26a69a', '#c2185b'],
+          borderWidth: 3,
+          borderColor: '#fff',
         }]
       },
       options: {
         responsive: true,
-        plugins: { legend: { display: false }, tooltip: { cornerRadius: 10 } },
-        scales: {
-          x: { grid: { display: false }, ticks: { maxRotation: 45 } },
-          y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } }
+        cutout: '65%',
+        plugins: {
+          legend: { position: 'bottom' },
+          tooltip: {
+            cornerRadius: 10,
+            callbacks: { label: ctx => ` ${ctx.parsed.toFixed(1)} kg` }
+          }
         }
       }
     });
   }
 
-  // ── Render totals ──────────────────────────────────
+  // ── Totals ──
   function renderTotals(entries) {
     const kg     = entries.reduce((s, e) => s + Number(e.kgHarvested), 0);
     const bags   = entries.reduce((s, e) => s + Number(e.bagsGiven), 0);
     const people = entries.reduce((s, e) => s + Number(e.peopleEngaged), 0);
+    const kitchenKg   = entries.filter(e => e.harvestType === 'Kitchen Harvest').reduce((s,e) => s + Number(e.kgHarvested), 0);
+    const communityKg = entries.filter(e => e.harvestType === 'Community Harvest').reduce((s,e) => s + Number(e.kgHarvested), 0);
 
     animateCounter(document.getElementById('totalKg'), kg, 1);
     animateCounter(document.getElementById('totalBags'), bags);
     animateCounter(document.getElementById('totalPeople'), people);
+    animateCounter(document.getElementById('kitchenKg'), kitchenKg, 1);
+    animateCounter(document.getElementById('communityKg'), communityKg, 1);
 
     const latest = [...entries].sort((a, b) => b.date.localeCompare(a.date))[0];
-    if (latest) {
-      document.getElementById('changeKg').textContent     = `Latest: +${Number(latest.kgHarvested).toFixed(1)} kg on ${formatDate(latest.date)}`;
-      document.getElementById('changeBags').textContent   = `Latest: +${latest.bagsGiven} bags on ${formatDate(latest.date)}`;
-      document.getElementById('changePeople').textContent = `Latest: +${latest.peopleEngaged} people on ${formatDate(latest.date)}`;
-    } else {
-      ['changeKg','changeBags','changePeople'].forEach(id => document.getElementById(id).textContent = '');
-    }
+    document.getElementById('changeBags').textContent   = latest ? `Latest: +${latest.bagsGiven} bags on ${formatDate(latest.date)}` : '';
+    document.getElementById('changePeople').textContent = latest ? `Latest: +${latest.peopleEngaged} people on ${formatDate(latest.date)}` : '';
   }
 
-  // ── Render table ───────────────────────────────────
+  // ── Table ──
+  function setFilter(filter, btn) {
+    activeFilter = filter;
+    document.querySelectorAll('.filter-tab').forEach(t => {
+      t.className = 'filter-tab';
+      if (t === btn) {
+        if (filter === 'all') t.classList.add('active-all');
+        else if (filter === 'Kitchen Harvest') t.classList.add('active-kitchen');
+        else t.classList.add('active-community');
+      }
+    });
+    renderTable(loadEntries());
+  }
+
   function renderTable(entries) {
-    const sorted = [...entries].sort((a, b) => b.date.localeCompare(a.date));
+    const filtered = activeFilter === 'all' ? entries : entries.filter(e => e.harvestType === activeFilter);
+    const sorted = [...filtered].sort((a, b) => b.date.localeCompare(a.date));
     const empty  = document.getElementById('emptyState');
     const table  = document.getElementById('logTable');
     const body   = document.getElementById('logBody');
@@ -853,22 +809,26 @@
     empty.style.display = 'none';
     table.style.display = '';
 
-    body.innerHTML = sorted.map(e => `
-      <tr data-id="${e.id}">
-        <td><strong>${formatDate(e.date)}</strong></td>
-        <td>${e.note ? `<span class="badge badge-green">${e.note}</span>` : '<span style="color:#ccc">—</span>'}</td>
-        <td><span class="badge badge-green">${Number(e.kgHarvested).toFixed(1)} kg</span></td>
-        <td><span class="badge badge-brown">${e.bagsGiven}</span></td>
-        <td><span class="badge badge-blue">${e.peopleEngaged}</span></td>
-        <td style="display:flex;gap:6px;flex-wrap:wrap">
-          <button class="btn-delete" style="border-color:#c8e6c9;color:#2e7d32;background:#f1f8e9" onclick="openEdit('${e.id}')">✏️</button>
-          <button class="btn-delete" onclick="deleteEntry('${e.id}')">🗑️</button>
-        </td>
-      </tr>
-    `).join('');
+    body.innerHTML = sorted.map(e => {
+      const typeClass = e.harvestType === 'Kitchen Harvest' ? 'badge-kitchen' : 'badge-community';
+      const typeLabel = e.harvestType === 'Kitchen Harvest' ? '🍳 Kitchen' : '🌍 Community';
+      return `
+        <tr>
+          <td><strong>${formatDate(e.date)}</strong></td>
+          <td><span class="badge ${typeClass}">${typeLabel}</span></td>
+          <td>${e.note ? `<span class="badge badge-green">${e.note}</span>` : '<span style="color:#ccc">—</span>'}</td>
+          <td><span class="badge badge-green">${Number(e.kgHarvested).toFixed(1)} kg</span></td>
+          <td><span class="badge badge-brown">${e.bagsGiven}</span></td>
+          <td><span class="badge badge-blue">${e.peopleEngaged}</span></td>
+          <td style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn-delete" style="border-color:#c8e6c9;color:#2e7d32;background:#f1f8e9" onclick="openEdit('${e.id}')">✏️</button>
+            <button class="btn-delete" onclick="deleteEntry('${e.id}')">🗑️</button>
+          </td>
+        </tr>`;
+    }).join('');
   }
 
-  // ── Full refresh ───────────────────────────────────
+  // ── Full refresh ──
   function refresh() {
     const entries = loadEntries();
     renderTotals(entries);
@@ -876,25 +836,23 @@
     renderCharts(entries);
   }
 
-  // ── Add entry ──────────────────────────────────────
+  // ── Add entry ──
   document.getElementById('entryForm').addEventListener('submit', e => {
     e.preventDefault();
     const entries = loadEntries();
-    const entry = {
-      id:           uid(),
-      date:         document.getElementById('fDate').value,
-      note:         document.getElementById('fNote').value.trim(),
-      kgHarvested:  parseFloat(document.getElementById('fKg').value) || 0,
-      bagsGiven:    parseInt(document.getElementById('fBags').value) || 0,
-      peopleEngaged:parseInt(document.getElementById('fPeople').value) || 0,
-    };
-    entries.push(entry);
+    entries.push({
+      id:            uid(),
+      date:          document.getElementById('fDate').value,
+      harvestType:   document.getElementById('fType').value,
+      note:          document.getElementById('fNote').value.trim(),
+      kgHarvested:   parseFloat(document.getElementById('fKg').value) || 0,
+      bagsGiven:     parseInt(document.getElementById('fBags').value) || 0,
+      peopleEngaged: parseInt(document.getElementById('fPeople').value) || 0,
+    });
     saveEntries(entries);
     e.target.reset();
-    // Keep today's date
     document.getElementById('fDate').value = new Date().toISOString().split('T')[0];
 
-    // Sprout animation
     const sprout = document.getElementById('sproutAnim');
     sprout.style.display = 'inline-flex';
     sprout.style.animation = 'none';
@@ -907,21 +865,21 @@
     toast('Entry saved!', '🌱');
   });
 
-  // ── Delete entry ───────────────────────────────────
+  // ── Delete ──
   function deleteEntry(id) {
     if (!confirm('Delete this entry?')) return;
-    const entries = loadEntries().filter(e => e.id !== id);
-    saveEntries(entries);
+    saveEntries(loadEntries().filter(e => e.id !== id));
     refresh();
     toast('Entry removed', '🍂');
   }
 
-  // ── Edit entry ─────────────────────────────────────
+  // ── Edit ──
   function openEdit(id) {
     const entry = loadEntries().find(e => e.id === id);
     if (!entry) return;
     document.getElementById('eId').value     = id;
     document.getElementById('eDate').value   = entry.date;
+    document.getElementById('eType').value   = entry.harvestType || 'Kitchen Harvest';
     document.getElementById('eNote').value   = entry.note || '';
     document.getElementById('eKg').value     = entry.kgHarvested;
     document.getElementById('eBags').value   = entry.bagsGiven;
@@ -937,6 +895,7 @@
     entries[idx] = {
       ...entries[idx],
       date:          document.getElementById('eDate').value,
+      harvestType:   document.getElementById('eType').value,
       note:          document.getElementById('eNote').value.trim(),
       kgHarvested:   parseFloat(document.getElementById('eKg').value) || 0,
       bagsGiven:     parseInt(document.getElementById('eBags').value) || 0,
@@ -948,15 +907,12 @@
     toast('Entry updated!', '✏️');
   });
 
-  document.getElementById('closeModal').addEventListener('click', () => {
-    document.getElementById('editModal').classList.remove('open');
-  });
+  document.getElementById('closeModal').addEventListener('click', () => document.getElementById('editModal').classList.remove('open'));
   document.getElementById('editModal').addEventListener('click', e => {
-    if (e.target === document.getElementById('editModal'))
-      document.getElementById('editModal').classList.remove('open');
+    if (e.target === document.getElementById('editModal')) document.getElementById('editModal').classList.remove('open');
   });
 
-  // ── Init ───────────────────────────────────────────
+  // ── Init ──
   document.getElementById('fDate').value = new Date().toISOString().split('T')[0];
   refresh();
 </script>
