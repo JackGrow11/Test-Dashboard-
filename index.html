@@ -16,8 +16,6 @@
     --dark: #2a2d3e;
     --card-bg: #ffffff;
     --shadow: rgba(61, 65, 88, 0.12);
-    --kitchen: #2EC4B6;
-    --community: #E91E8C;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -61,7 +59,6 @@
     50% { transform: rotate(3deg) scale(1.02); }
   }
 
-  /* ── Header ── */
   header {
     position: relative;
     z-index: 10;
@@ -75,27 +72,24 @@
   }
 
   .logo-wrap {
-    width: 88px;
-    height: 88px;
+    width: 88px; height: 88px;
     border-radius: 16px;
     overflow: hidden;
     background: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
     border: 3px solid #2EC4B6;
     box-shadow: 0 0 0 4px rgba(46,196,182,0.2);
   }
-
   .logo-wrap img { width: 100%; height: 100%; object-fit: contain; padding: 6px; }
   .logo-placeholder { font-size: 32px; }
 
   .header-text h1 { font-size: 2rem; font-weight: 800; letter-spacing: -0.5px; line-height: 1.1; }
   .header-text p  { font-size: 0.95rem; opacity: 0.75; margin-top: 4px; }
 
+  .header-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+
   .header-leaf {
-    margin-left: auto;
     font-size: 3.5rem;
     animation: bob 3s ease-in-out infinite;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
@@ -105,7 +99,29 @@
     50% { transform: translateY(-8px) rotate(5deg); }
   }
 
-  /* ── Main ── */
+  /* ── Sync status ── */
+  .sync-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    opacity: 0.85;
+    background: rgba(255,255,255,0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+  }
+  .sync-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #aaa;
+    transition: background 0.3s;
+  }
+  .sync-dot.synced  { background: #4CAF50; }
+  .sync-dot.syncing { background: #FFC107; animation: pulse 1s infinite; }
+  .sync-dot.error   { background: #f44336; }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
   main {
     position: relative;
     z-index: 10;
@@ -115,23 +131,40 @@
   }
 
   .section-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--earth);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size: 1.1rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: var(--earth); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
   }
   .section-title::after {
-    content: '';
-    flex: 1;
-    height: 2px;
+    content: ''; flex: 1; height: 2px;
     background: linear-gradient(to right, var(--earth-light), transparent);
     border-radius: 2px;
   }
+
+  /* ── Loading overlay ── */
+  .loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(244,247,249,0.85);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    backdrop-filter: blur(4px);
+  }
+  .loading-overlay.hidden { display: none; }
+  .spinner {
+    width: 48px; height: 48px;
+    border: 4px solid rgba(46,196,182,0.2);
+    border-top-color: #2EC4B6;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { font-size: 1rem; font-weight: 600; color: var(--forest); opacity: 0.7; }
 
   /* ── Stat cards ── */
   .stats-grid {
@@ -148,6 +181,7 @@
     .header-text h1 { font-size: 1.4rem; }
     .chart-grid { grid-template-columns: 1fr !important; }
     .type-breakdown { grid-template-columns: 1fr !important; }
+    .header-leaf { font-size: 2rem; }
   }
 
   .stat-card {
@@ -175,47 +209,34 @@
   .stat-card.people::before  { background: #7C4DFF; }
 
   .stat-icon {
-    font-size: 2.4rem;
-    margin-bottom: 12px;
-    display: block;
+    font-size: 2.4rem; margin-bottom: 12px; display: block;
     animation: wiggle 4s ease-in-out infinite;
   }
   .stat-card:nth-child(2) .stat-icon { animation-delay: -1.3s; }
   .stat-card:nth-child(3) .stat-icon { animation-delay: -2.6s; }
-
   @keyframes wiggle {
-    0%, 90%, 100% { transform: rotate(0deg); }
+    0%,90%,100% { transform: rotate(0deg); }
     92% { transform: rotate(-8deg); }
     96% { transform: rotate(8deg); }
   }
 
   .stat-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 8px; }
-  .stat-value { font-size: 3rem; font-weight: 900; line-height: 1; color: var(--forest); }
+  .stat-value { font-size: 3rem; font-weight: 900; line-height: 1; }
   .stat-card.harvest .stat-value { color: #2EC4B6; }
   .stat-card.bags   .stat-value  { color: #E91E8C; }
   .stat-card.people .stat-value  { color: #6200EA; }
   .stat-unit { font-size: 1rem; font-weight: 600; opacity: 0.5; margin-left: 4px; }
   .stat-change { margin-top: 10px; font-size: 0.82rem; color: #888; }
 
-  /* ── Harvest type breakdown mini-cards ── */
-  .type-breakdown {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 12px;
-  }
+  .type-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
   .type-mini {
-    border-radius: 12px;
-    padding: 10px 14px;
-    font-size: 0.82rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    border-radius: 12px; padding: 10px 12px;
+    font-size: 0.78rem; font-weight: 700;
+    display: flex; align-items: center; gap: 6px;
   }
   .type-mini.kitchen   { background: #e0f7f6; color: #00796B; }
   .type-mini.community { background: #fce4f2; color: #AD1457; }
-  .type-mini .mini-val { font-size: 1.1rem; font-weight: 900; }
+  .type-mini .mini-val { font-size: 1.05rem; font-weight: 900; }
 
   /* ── Charts ── */
   .chart-grid {
@@ -224,7 +245,6 @@
     gap: 20px;
     margin-bottom: 36px;
   }
-
   .chart-card {
     background: var(--card-bg);
     border-radius: 20px;
@@ -247,11 +267,8 @@
   }
   .form-card::after {
     content: '🌿';
-    position: absolute;
-    right: 24px; bottom: 20px;
-    font-size: 5rem;
-    opacity: 0.12;
-    transform: rotate(20deg);
+    position: absolute; right: 24px; bottom: 20px;
+    font-size: 5rem; opacity: 0.12; transform: rotate(20deg);
   }
 
   .form-grid {
@@ -260,7 +277,6 @@
     gap: 16px;
     margin-top: 20px;
   }
-
   .form-group { display: flex; flex-direction: column; gap: 6px; }
 
   label { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--forest); }
@@ -280,46 +296,36 @@
     width: 100%;
     appearance: none;
     -webkit-appearance: none;
-    cursor: pointer;
   }
   select {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%233D4158' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 14px center;
+    background-color: white;
     padding-right: 36px;
+    cursor: pointer;
   }
-
   input:focus, select:focus {
     border-color: #2EC4B6;
     box-shadow: 0 0 0 3px rgba(46,196,182,0.18);
   }
 
-  /* Colour the select based on value */
-  select.kitchen-selected   { border-color: #2EC4B6; background-color: #f0fbfa; }
-  select.community-selected { border-color: #E91E8C; background-color: #fdf0f7; }
-
   .btn-submit {
     margin-top: 20px;
     padding: 14px 36px;
     background: linear-gradient(135deg, #2EC4B6, #4ECDC4);
-    color: white;
-    border: none;
-    border-radius: 14px;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
+    color: white; border: none; border-radius: 14px;
+    font-size: 1rem; font-weight: 700; cursor: pointer;
     transition: transform 0.15s, box-shadow 0.15s;
     box-shadow: 0 4px 16px rgba(46,196,182,0.35);
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    display: flex; align-items: center; gap: 8px;
   }
-  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(46,196,182,0.45); }
-  .btn-submit:active { transform: translateY(0); }
+  .btn-submit:hover   { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(46,196,182,0.45); }
+  .btn-submit:active  { transform: translateY(0); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
   .sprout-anim {
-    display: none;
-    font-size: 1.5rem;
+    display: none; font-size: 1.5rem;
     animation: sprout 0.6s ease forwards;
   }
   @keyframes sprout {
@@ -330,31 +336,17 @@
 
   /* ── Table ── */
   .table-card {
-    background: var(--card-bg);
-    border-radius: 20px;
-    padding: 24px;
+    background: var(--card-bg); border-radius: 20px; padding: 24px;
     box-shadow: 0 4px 20px var(--shadow);
-    border: 1.5px solid rgba(46,196,182,0.12);
-    overflow: hidden;
+    border: 1.5px solid rgba(46,196,182,0.12); overflow: hidden;
   }
 
-  /* Filter tabs */
-  .filter-tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 16px;
-    flex-wrap: wrap;
-  }
+  .filter-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
   .filter-tab {
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 0.82rem;
-    font-weight: 700;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: all 0.15s;
-    background: #f4f4f4;
-    color: #888;
+    padding: 6px 16px; border-radius: 20px;
+    font-size: 0.82rem; font-weight: 700; cursor: pointer;
+    border: 2px solid transparent; transition: all 0.15s;
+    background: #f4f4f4; color: #888;
   }
   .filter-tab:hover { background: #e8e8e8; }
   .filter-tab.active-all       { background: var(--forest); color: white; }
@@ -371,13 +363,9 @@
   tbody tr:hover { background: rgba(46,196,182,0.05); }
 
   .btn-delete {
-    background: none;
-    border: 1.5px solid #ffcdd2;
-    color: #e53935;
-    border-radius: 8px;
-    padding: 5px 12px;
-    font-size: 0.8rem;
-    cursor: pointer;
+    background: none; border: 1.5px solid #ffcdd2;
+    color: #e53935; border-radius: 8px; padding: 5px 12px;
+    font-size: 0.8rem; cursor: pointer;
     transition: background 0.15s, transform 0.1s;
   }
   .btn-delete:hover { background: #ffebee; transform: scale(1.05); }
@@ -387,65 +375,44 @@
 
   /* ── Toast ── */
   #toast {
-    position: fixed;
-    bottom: 32px; left: 50%;
+    position: fixed; bottom: 32px; left: 50%;
     transform: translateX(-50%) translateY(80px);
-    background: var(--forest);
-    color: white;
-    padding: 14px 28px;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 0.95rem;
+    background: var(--forest); color: white;
+    padding: 14px 28px; border-radius: 50px;
+    font-weight: 600; font-size: 0.95rem;
     box-shadow: 0 8px 32px rgba(0,0,0,0.25);
     z-index: 1000;
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    pointer-events: none; display: flex; align-items: center; gap: 10px;
   }
   #toast.show { transform: translateX(-50%) translateY(0); }
 
   /* ── Modal ── */
   .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 500;
-    align-items: center;
-    justify-content: center;
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4); z-index: 500;
+    align-items: center; justify-content: center;
     backdrop-filter: blur(3px);
   }
   .modal-overlay.open { display: flex; }
-
   .modal {
-    background: white;
-    border-radius: 20px;
-    padding: 32px;
+    background: white; border-radius: 20px; padding: 32px;
     width: min(540px, 90vw);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3); position: relative;
   }
   .modal h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 20px; color: var(--forest); }
   .modal .btn-submit { margin-top: 16px; width: 100%; justify-content: center; }
 
   .btn-close-modal {
-    position: absolute;
-    top: 16px; right: 16px;
-    background: #f5f5f5;
-    border: none;
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.1rem;
+    position: absolute; top: 16px; right: 16px;
+    background: #f5f5f5; border: none;
+    width: 32px; height: 32px; border-radius: 50%;
+    cursor: pointer; font-size: 1.1rem;
     display: flex; align-items: center; justify-content: center;
-    color: #666;
-    transition: background 0.15s;
+    color: #666; transition: background 0.15s;
   }
   .btn-close-modal:hover { background: #e0e0e0; }
 
-  /* ── Badges ── */
   .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
   .badge-green     { background: #e0f7f6; color: #00796B; }
   .badge-brown     { background: #fce4f2; color: #AD1457; }
@@ -473,6 +440,12 @@
   </svg>
 </div>
 
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="loading-text">Loading from Airtable…</div>
+</div>
+
 <header>
   <div class="logo-wrap">
     <img src="./logo.png" alt="Square Mile Farms" onerror="this.style.display='none';document.getElementById('logoFallback').style.display='block'">
@@ -482,12 +455,17 @@
     <h1>Square Mile Farms</h1>
     <p>Harvest &amp; Community Dashboard</p>
   </div>
-  <div class="header-leaf">🌿</div>
+  <div class="header-right">
+    <div class="sync-status">
+      <div class="sync-dot" id="syncDot"></div>
+      <span id="syncLabel">Connecting…</span>
+    </div>
+    <div class="header-leaf">🌿</div>
+  </div>
 </header>
 
 <main>
 
-  <!-- Totals -->
   <p class="section-title">🌾 Running Totals</p>
   <div class="stats-grid">
     <div class="stat-card harvest">
@@ -495,8 +473,8 @@
       <div class="stat-label">Produce Harvested</div>
       <div class="stat-value"><span id="totalKg">0</span><span class="stat-unit">kg</span></div>
       <div class="type-breakdown">
-        <div class="type-mini kitchen">🍳 <span class="mini-val" id="kitchenKg">0</span> kg Kitchen</div>
-        <div class="type-mini community">🌍 <span class="mini-val" id="communityKg">0</span> kg Community</div>
+        <div class="type-mini kitchen">🍳 <span class="mini-val" id="kitchenKg">0</span> kg</div>
+        <div class="type-mini community">🌍 <span class="mini-val" id="communityKg">0</span> kg</div>
       </div>
     </div>
     <div class="stat-card bags">
@@ -513,7 +491,6 @@
     </div>
   </div>
 
-  <!-- Charts -->
   <p class="section-title">📊 History</p>
   <div class="chart-grid">
     <div class="chart-card">
@@ -526,7 +503,6 @@
     </div>
   </div>
 
-  <!-- Form -->
   <p class="section-title">✍️ Log New Entry</p>
   <div class="form-card">
     <p style="font-size:0.95rem;color:#555;margin-top:4px;">Record today's harvest and community activity below.</p>
@@ -561,13 +537,12 @@
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-        <button type="submit" class="btn-submit">🌱 <span>Add Entry</span></button>
+        <button type="submit" class="btn-submit" id="submitBtn">🌱 <span>Add Entry</span></button>
         <span class="sprout-anim" id="sproutAnim">🌿 Saved!</span>
       </div>
     </form>
   </div>
 
-  <!-- Log table -->
   <p class="section-title">📋 Entry Log</p>
   <div class="table-card">
     <div class="filter-tabs">
@@ -602,7 +577,7 @@
 <!-- Edit modal -->
 <div class="modal-overlay" id="editModal">
   <div class="modal">
-    <button class="btn-close-modal" id="closeModal" title="Close">✕</button>
+    <button class="btn-close-modal" id="closeModal">✕</button>
     <h3>✏️ Edit Entry</h3>
     <input type="hidden" id="eId">
     <div class="form-grid">
@@ -641,15 +616,69 @@
 <div id="toast"></div>
 
 <script>
-  const STORAGE_KEY = 'smf_entries';
-  let activeFilter = 'all';
+  // ── Airtable config ──────────────────────────────────
+  // REPLACE the token below with your new token after regenerating it
+  const AT_TOKEN  = 'pat6EIEhl3rla06Ec.de46dd83e9b81415417a3c57dc12781c486b6e247b2cadda9aa74c7810ba6490';
+  const AT_BASE   = 'appHeLY0HMZSge8hG';
+  const AT_TABLE  = 'tblbrrfVqBzgpvNvd';
+  const AT_URL    = `https://api.airtable.com/v0/${AT_BASE}/${AT_TABLE}`;
+  const AT_HEADERS = {
+    'Authorization': `Bearer ${AT_TOKEN}`,
+    'Content-Type': 'application/json',
+  };
 
-  function uid() { return Math.random().toString(36).slice(2) + Date.now().toString(36); }
-  function loadEntries() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; } }
-  function saveEntries(e) { localStorage.setItem(STORAGE_KEY, JSON.stringify(e)); }
-  function formatDate(iso) { const [y,m,d] = iso.split('-'); return `${d}/${m}/${y}`; }
+  let cachedEntries = [];
+  let activeFilter  = 'all';
 
-  // ── Toast ──
+  // ── Sync status ──────────────────────────────────────
+  function setSyncStatus(state, label) {
+    const dot = document.getElementById('syncDot');
+    const lbl = document.getElementById('syncLabel');
+    dot.className = 'sync-dot ' + state;
+    lbl.textContent = label;
+  }
+
+  // ── Airtable API helpers ─────────────────────────────
+  async function atFetch(url, options = {}) {
+    const res = await fetch(url, { ...options, headers: AT_HEADERS });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || `HTTP ${res.status}`);
+    }
+    return res.json();
+  }
+
+  async function fetchAllEntries() {
+    let records = [], offset = null;
+    do {
+      const url = AT_URL + '?sort[0][field]=date&sort[0][direction]=desc' + (offset ? `&offset=${offset}` : '');
+      const data = await atFetch(url);
+      records = records.concat(data.records);
+      offset = data.offset || null;
+    } while (offset);
+    return records.map(r => ({ id: r.id, ...r.fields }));
+  }
+
+  async function createEntry(fields) {
+    const data = await atFetch(AT_URL, {
+      method: 'POST',
+      body: JSON.stringify({ fields }),
+    });
+    return { id: data.id, ...data.fields };
+  }
+
+  async function updateEntry(recordId, fields) {
+    await atFetch(`${AT_URL}/${recordId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ fields }),
+    });
+  }
+
+  async function deleteEntryById(recordId) {
+    await atFetch(`${AT_URL}/${recordId}`, { method: 'DELETE' });
+  }
+
+  // ── Toast ────────────────────────────────────────────
   let toastTimer;
   function toast(msg, icon = '🌱') {
     const el = document.getElementById('toast');
@@ -659,7 +688,7 @@
     toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
   }
 
-  // ── Counter animation ──
+  // ── Counter animation ────────────────────────────────
   function animateCounter(el, target, decimals = 0) {
     const start = parseFloat(el.textContent) || 0;
     const startTime = performance.now();
@@ -673,19 +702,23 @@
     requestAnimationFrame(step);
   }
 
-  // ── Charts ──
+  function formatDate(iso) {
+    if (!iso) return '—';
+    const [y, m, d] = iso.split('-');
+    return `${d}/${m}/${y}`;
+  }
+
+  // ── Charts ───────────────────────────────────────────
   let lineChartInst, donutChartInst;
 
   function renderCharts(entries) {
     const kitchen   = entries.filter(e => e.harvestType === 'Kitchen Harvest');
     const community = entries.filter(e => e.harvestType === 'Community Harvest');
+    const allDates  = [...new Set(entries.map(e => e.date).filter(Boolean))].sort();
+    const labels    = allDates.map(formatDate);
 
-    // All unique dates sorted
-    const allDates = [...new Set(entries.map(e => e.date))].sort();
-    const labels = allDates.map(formatDate);
-
-    const kgByDate = (subset) => allDates.map(d =>
-      subset.filter(e => e.date === d).reduce((s, e) => s + Number(e.kgHarvested), 0)
+    const kgByDate = sub => allDates.map(d =>
+      sub.filter(e => e.date === d).reduce((s, e) => s + Number(e.kgHarvested || 0), 0)
     );
 
     const lineCtx = document.getElementById('lineChart').getContext('2d');
@@ -698,24 +731,16 @@
           {
             label: '🍳 Kitchen Harvest (kg)',
             data: kgByDate(kitchen),
-            borderColor: '#2EC4B6',
-            backgroundColor: 'rgba(46,196,182,0.12)',
-            tension: 0.4,
-            fill: true,
-            pointBackgroundColor: '#2EC4B6',
-            pointRadius: 5,
-            pointHoverRadius: 7,
+            borderColor: '#2EC4B6', backgroundColor: 'rgba(46,196,182,0.12)',
+            tension: 0.4, fill: true,
+            pointBackgroundColor: '#2EC4B6', pointRadius: 5, pointHoverRadius: 7,
           },
           {
             label: '🌍 Community Harvest (kg)',
             data: kgByDate(community),
-            borderColor: '#E91E8C',
-            backgroundColor: 'rgba(233,30,140,0.08)',
-            tension: 0.4,
-            fill: true,
-            pointBackgroundColor: '#E91E8C',
-            pointRadius: 5,
-            pointHoverRadius: 7,
+            borderColor: '#E91E8C', backgroundColor: 'rgba(233,30,140,0.08)',
+            tension: 0.4, fill: true,
+            pointBackgroundColor: '#E91E8C', pointRadius: 5, pointHoverRadius: 7,
           }
         ]
       },
@@ -730,8 +755,8 @@
       }
     });
 
-    const kitchenTotal   = kitchen.reduce((s, e) => s + Number(e.kgHarvested), 0);
-    const communityTotal = community.reduce((s, e) => s + Number(e.kgHarvested), 0);
+    const kitchenTotal   = kitchen.reduce((s, e) => s + Number(e.kgHarvested || 0), 0);
+    const communityTotal = community.reduce((s, e) => s + Number(e.kgHarvested || 0), 0);
 
     const donutCtx = document.getElementById('donutChart').getContext('2d');
     if (donutChartInst) donutChartInst.destroy();
@@ -743,31 +768,26 @@
           data: [kitchenTotal, communityTotal],
           backgroundColor: ['#2EC4B6', '#E91E8C'],
           hoverBackgroundColor: ['#26a69a', '#c2185b'],
-          borderWidth: 3,
-          borderColor: '#fff',
+          borderWidth: 3, borderColor: '#fff',
         }]
       },
       options: {
-        responsive: true,
-        cutout: '65%',
+        responsive: true, cutout: '65%',
         plugins: {
           legend: { position: 'bottom' },
-          tooltip: {
-            cornerRadius: 10,
-            callbacks: { label: ctx => ` ${ctx.parsed.toFixed(1)} kg` }
-          }
+          tooltip: { cornerRadius: 10, callbacks: { label: ctx => ` ${ctx.parsed.toFixed(1)} kg` } }
         }
       }
     });
   }
 
-  // ── Totals ──
+  // ── Totals ───────────────────────────────────────────
   function renderTotals(entries) {
-    const kg     = entries.reduce((s, e) => s + Number(e.kgHarvested), 0);
-    const bags   = entries.reduce((s, e) => s + Number(e.bagsGiven), 0);
-    const people = entries.reduce((s, e) => s + Number(e.peopleEngaged), 0);
-    const kitchenKg   = entries.filter(e => e.harvestType === 'Kitchen Harvest').reduce((s,e) => s + Number(e.kgHarvested), 0);
-    const communityKg = entries.filter(e => e.harvestType === 'Community Harvest').reduce((s,e) => s + Number(e.kgHarvested), 0);
+    const kg          = entries.reduce((s, e) => s + Number(e.kgHarvested || 0), 0);
+    const bags        = entries.reduce((s, e) => s + Number(e.bagsGiven || 0), 0);
+    const people      = entries.reduce((s, e) => s + Number(e.peopleEngaged || 0), 0);
+    const kitchenKg   = entries.filter(e => e.harvestType === 'Kitchen Harvest').reduce((s, e) => s + Number(e.kgHarvested || 0), 0);
+    const communityKg = entries.filter(e => e.harvestType === 'Community Harvest').reduce((s, e) => s + Number(e.kgHarvested || 0), 0);
 
     animateCounter(document.getElementById('totalKg'), kg, 1);
     animateCounter(document.getElementById('totalBags'), bags);
@@ -775,12 +795,12 @@
     animateCounter(document.getElementById('kitchenKg'), kitchenKg, 1);
     animateCounter(document.getElementById('communityKg'), communityKg, 1);
 
-    const latest = [...entries].sort((a, b) => b.date.localeCompare(a.date))[0];
-    document.getElementById('changeBags').textContent   = latest ? `Latest: +${latest.bagsGiven} bags on ${formatDate(latest.date)}` : '';
-    document.getElementById('changePeople').textContent = latest ? `Latest: +${latest.peopleEngaged} people on ${formatDate(latest.date)}` : '';
+    const latest = [...entries].sort((a, b) => (b.date || '').localeCompare(a.date || ''))[0];
+    document.getElementById('changeBags').textContent   = latest ? `Latest: +${latest.bagsGiven || 0} bags on ${formatDate(latest.date)}` : '';
+    document.getElementById('changePeople').textContent = latest ? `Latest: +${latest.peopleEngaged || 0} people on ${formatDate(latest.date)}` : '';
   }
 
-  // ── Table ──
+  // ── Table ────────────────────────────────────────────
   function setFilter(filter, btn) {
     activeFilter = filter;
     document.querySelectorAll('.filter-tab').forEach(t => {
@@ -791,15 +811,15 @@
         else t.classList.add('active-community');
       }
     });
-    renderTable(loadEntries());
+    renderTable(cachedEntries);
   }
 
   function renderTable(entries) {
     const filtered = activeFilter === 'all' ? entries : entries.filter(e => e.harvestType === activeFilter);
-    const sorted = [...filtered].sort((a, b) => b.date.localeCompare(a.date));
-    const empty  = document.getElementById('emptyState');
-    const table  = document.getElementById('logTable');
-    const body   = document.getElementById('logBody');
+    const sorted   = [...filtered].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    const empty    = document.getElementById('emptyState');
+    const table    = document.getElementById('logTable');
+    const body     = document.getElementById('logBody');
 
     if (!sorted.length) {
       empty.style.display = '';
@@ -810,16 +830,17 @@
     table.style.display = '';
 
     body.innerHTML = sorted.map(e => {
-      const typeClass = e.harvestType === 'Kitchen Harvest' ? 'badge-kitchen' : 'badge-community';
-      const typeLabel = e.harvestType === 'Kitchen Harvest' ? '🍳 Kitchen' : '🌍 Community';
+      const isCommunity = e.harvestType === 'Community Harvest';
+      const typeClass   = isCommunity ? 'badge-community' : 'badge-kitchen';
+      const typeLabel   = isCommunity ? '🌍 Community' : '🍳 Kitchen';
       return `
         <tr>
           <td><strong>${formatDate(e.date)}</strong></td>
           <td><span class="badge ${typeClass}">${typeLabel}</span></td>
           <td>${e.note ? `<span class="badge badge-green">${e.note}</span>` : '<span style="color:#ccc">—</span>'}</td>
-          <td><span class="badge badge-green">${Number(e.kgHarvested).toFixed(1)} kg</span></td>
-          <td><span class="badge badge-brown">${e.bagsGiven}</span></td>
-          <td><span class="badge badge-blue">${e.peopleEngaged}</span></td>
+          <td><span class="badge badge-green">${Number(e.kgHarvested || 0).toFixed(1)} kg</span></td>
+          <td><span class="badge badge-brown">${e.bagsGiven || 0}</span></td>
+          <td><span class="badge badge-blue">${e.peopleEngaged || 0}</span></td>
           <td style="display:flex;gap:6px;flex-wrap:wrap">
             <button class="btn-delete" style="border-color:#c8e6c9;color:#2e7d32;background:#f1f8e9" onclick="openEdit('${e.id}')">✏️</button>
             <button class="btn-delete" onclick="deleteEntry('${e.id}')">🗑️</button>
@@ -828,72 +849,93 @@
     }).join('');
   }
 
-  // ── Full refresh ──
-  function refresh() {
-    const entries = loadEntries();
-    renderTotals(entries);
-    renderTable(entries);
-    renderCharts(entries);
+  // ── Full refresh ─────────────────────────────────────
+  async function refresh() {
+    setSyncStatus('syncing', 'Syncing…');
+    try {
+      cachedEntries = await fetchAllEntries();
+      renderTotals(cachedEntries);
+      renderTable(cachedEntries);
+      renderCharts(cachedEntries);
+      setSyncStatus('synced', 'Synced');
+    } catch (err) {
+      setSyncStatus('error', 'Sync error');
+      toast('Could not load data: ' + err.message, '⚠️');
+    }
   }
 
-  // ── Add entry ──
-  document.getElementById('entryForm').addEventListener('submit', e => {
+  // ── Add entry ────────────────────────────────────────
+  document.getElementById('entryForm').addEventListener('submit', async e => {
     e.preventDefault();
-    const entries = loadEntries();
-    entries.push({
-      id:            uid(),
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = '⏳ <span>Saving…</span>';
+
+    const fields = {
       date:          document.getElementById('fDate').value,
       harvestType:   document.getElementById('fType').value,
       note:          document.getElementById('fNote').value.trim(),
       kgHarvested:   parseFloat(document.getElementById('fKg').value) || 0,
       bagsGiven:     parseInt(document.getElementById('fBags').value) || 0,
       peopleEngaged: parseInt(document.getElementById('fPeople').value) || 0,
-    });
-    saveEntries(entries);
-    e.target.reset();
-    document.getElementById('fDate').value = new Date().toISOString().split('T')[0];
+    };
 
-    const sprout = document.getElementById('sproutAnim');
-    sprout.style.display = 'inline-flex';
-    sprout.style.animation = 'none';
-    requestAnimationFrame(() => {
-      sprout.style.animation = '';
-      setTimeout(() => sprout.style.display = 'none', 1800);
-    });
+    try {
+      await createEntry(fields);
+      e.target.reset();
+      document.getElementById('fDate').value = new Date().toISOString().split('T')[0];
 
-    refresh();
-    toast('Entry saved!', '🌱');
+      const sprout = document.getElementById('sproutAnim');
+      sprout.style.display = 'inline-flex';
+      sprout.style.animation = 'none';
+      requestAnimationFrame(() => {
+        sprout.style.animation = '';
+        setTimeout(() => sprout.style.display = 'none', 1800);
+      });
+
+      await refresh();
+      toast('Entry saved to Airtable!', '🌱');
+    } catch (err) {
+      toast('Save failed: ' + err.message, '⚠️');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '🌱 <span>Add Entry</span>';
+    }
   });
 
-  // ── Delete ──
-  function deleteEntry(id) {
+  // ── Delete ───────────────────────────────────────────
+  async function deleteEntry(id) {
     if (!confirm('Delete this entry?')) return;
-    saveEntries(loadEntries().filter(e => e.id !== id));
-    refresh();
-    toast('Entry removed', '🍂');
+    try {
+      await deleteEntryById(id);
+      await refresh();
+      toast('Entry deleted', '🍂');
+    } catch (err) {
+      toast('Delete failed: ' + err.message, '⚠️');
+    }
   }
 
-  // ── Edit ──
+  // ── Edit ─────────────────────────────────────────────
   function openEdit(id) {
-    const entry = loadEntries().find(e => e.id === id);
+    const entry = cachedEntries.find(e => e.id === id);
     if (!entry) return;
     document.getElementById('eId').value     = id;
-    document.getElementById('eDate').value   = entry.date;
+    document.getElementById('eDate').value   = entry.date || '';
     document.getElementById('eType').value   = entry.harvestType || 'Kitchen Harvest';
     document.getElementById('eNote').value   = entry.note || '';
-    document.getElementById('eKg').value     = entry.kgHarvested;
-    document.getElementById('eBags').value   = entry.bagsGiven;
-    document.getElementById('ePeople').value = entry.peopleEngaged;
+    document.getElementById('eKg').value     = entry.kgHarvested || '';
+    document.getElementById('eBags').value   = entry.bagsGiven || '';
+    document.getElementById('ePeople').value = entry.peopleEngaged || '';
     document.getElementById('editModal').classList.add('open');
   }
 
-  document.getElementById('saveEdit').addEventListener('click', () => {
-    const id = document.getElementById('eId').value;
-    const entries = loadEntries();
-    const idx = entries.findIndex(e => e.id === id);
-    if (idx === -1) return;
-    entries[idx] = {
-      ...entries[idx],
+  document.getElementById('saveEdit').addEventListener('click', async () => {
+    const id  = document.getElementById('eId').value;
+    const btn = document.getElementById('saveEdit');
+    btn.disabled = true;
+    btn.innerHTML = '⏳ Saving…';
+
+    const fields = {
       date:          document.getElementById('eDate').value,
       harvestType:   document.getElementById('eType').value,
       note:          document.getElementById('eNote').value.trim(),
@@ -901,10 +943,18 @@
       bagsGiven:     parseInt(document.getElementById('eBags').value) || 0,
       peopleEngaged: parseInt(document.getElementById('ePeople').value) || 0,
     };
-    saveEntries(entries);
-    document.getElementById('editModal').classList.remove('open');
-    refresh();
-    toast('Entry updated!', '✏️');
+
+    try {
+      await updateEntry(id, fields);
+      document.getElementById('editModal').classList.remove('open');
+      await refresh();
+      toast('Entry updated!', '✏️');
+    } catch (err) {
+      toast('Update failed: ' + err.message, '⚠️');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '💾 Save Changes';
+    }
   });
 
   document.getElementById('closeModal').addEventListener('click', () => document.getElementById('editModal').classList.remove('open'));
@@ -912,9 +962,9 @@
     if (e.target === document.getElementById('editModal')) document.getElementById('editModal').classList.remove('open');
   });
 
-  // ── Init ──
+  // ── Init ─────────────────────────────────────────────
   document.getElementById('fDate').value = new Date().toISOString().split('T')[0];
-  refresh();
+  refresh().finally(() => document.getElementById('loadingOverlay').classList.add('hidden'));
 </script>
 </body>
 </html>
